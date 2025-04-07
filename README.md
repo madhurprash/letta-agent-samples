@@ -190,6 +190,8 @@ Create a new file `interact_with_agent.py`:
     )
 ```
 
+## How to export/import agents?
+
 **IMPORTANT**: If you want to change your agent, export your agent on the Agent Development Environment (ADE) as a `.af` file. **Agent File (.af)** is an open standard file format for serializing stateful AI agents. Originally designed for the Letta framework, Agent File provides a portable way to share agents with persistent memory and behavior. Change the contents/add content and import the updated `.af` file on the ADE. This will create a new agent which persists memory from the previous memory and you can test it with the latest updates too. 
 
 ## View an example: 
