@@ -23,4 +23,7 @@ dependencies = [
     "ragas>=0.2.14",
     "letta",
     "letta-client>=0.1.98",
+    "llama-index>=0.11.23",
+    "llama-index-embeddings-huggingface>=0.3.1",
+    "llama-index-embeddings-langchain>=0.2.1",
 ]
