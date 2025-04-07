@@ -4,7 +4,7 @@ from letta_client import Letta
 client = Letta(base_url="http://localhost:8283")
 
 # Replace with your agent ID from the previous step
-agent_id = "agent_id_here"
+agent_id = ""
 
 # send a message to the agent
 response = client.agents.messages.create(
@@ -12,7 +12,7 @@ response = client.agents.messages.create(
     messages=[
         {
             "role": "user",
-            "content": "hows it going????"
+            "content": "What is 1+1?"
         }
     ]
 )

@@ -184,9 +184,42 @@ Create a new file interact_with_agent.py:
         messages=[
             {
                 "role": "user",
-                "content": "hows it going????"
+                "content": "What is 1+1?"
             }
         ]
     )
 ```
+
+## View an example: 
+
+![img](img/math.png)
+
+```json
+    {
+    "created_by_id": "user-00000000-0000-4000-8000-000000000000",
+    "last_updated_by_id": "user-00000000-0000-4000-8000-000000000000",
+    "created_at": "2025-04-07T19:42:14.309997Z",
+    "updated_at": "2025-04-07T19:42:14.362861Z",
+    "id": "message-c5176f81-4e37-4614-97c0-28aad3f46f29",
+    "role": "assistant",
+    "content": [
+      {
+        "type": "text",
+        "text": "\nI've answered the user's question about what 1+1 equals (2). Now I'll wait to see if they have any other calculations they'd like me to perform.\n"
+      }
+    ],
+    "organization_id": "org-00000000-0000-4000-8000-000000000000",
+    "agent_id": "agent-431119f0-9e01-4a49-aeaa-eea9b64153cc",
+    "model": "claude-3-7-sonnet-20250219",
+    "name": "New_Calculator_Assistant_ed7c51ca",
+    "tool_calls": [],
+    "tool_call_id": null,
+    "step_id": "step-e0101de7-0c58-4e28-a54c-bc8f152f55c0",
+    "otid": null,
+    "tool_returns": [],
+    "group_id": null
+  }
+```
+
+
 
