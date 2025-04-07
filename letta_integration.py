@@ -5,8 +5,24 @@ import os
 # Connect to Letta
 client = Letta(base_url="http://localhost:8283")
 
+# List available models and print them out
+available_models = client.models.list_llms()
+print("\nAvailable models:")
+for i, model in enumerate(available_models):
+    print(f"{i+1}. {model.handle} ({model.model_endpoint_type})")
+print("\n")
+
 # Generate unique suffixes for tool names
 unique_suffix = str(uuid.uuid4())[:8]
+
+anthropic_api_key = os.environ.get("ANTHROPIC_API_KEY", None)
+
+# Print the API key status (without revealing the full key for security)
+if anthropic_api_key:
+    masked_key = anthropic_api_key[:8] + "..." + anthropic_api_key[-4:]
+    print(f"Found Anthropic API key: {masked_key}")
+else:
+    print("No Anthropic API key found in environment variables")
 
 # System prompt for the calculator agent
 system_prompt = """You are a helpful calculator assistant designed to perform mathematical operations.
@@ -54,7 +70,7 @@ def calculator(operation: str, a: float, b: float) -> str:
 
 # Add a descriptor to the json_schema to include a name for the tool
 tool_schema = {
-    "name": f"calculator_{unique_suffix}",
+    "name": f"new_tool_{unique_suffix}",
     "description": "A tool that performs basic arithmetic operations",
     "type": "function"
 }
@@ -71,32 +87,42 @@ calculator_tool = client.tools.create(
 print(f"Created calculator tool with ID: {calculator_tool.id}")
 
 # Create LLM config with all required fields
+# Using Claude 3.7 Sonnet as it's the latest model available
 llm_config = {
-    "model": "anthropic/claude-3-haiku-20240307",
+    "model": "anthropic/claude-3.5-sonnet",  # Using the latest Claude model
     "temperature": 0.7,
     "max_tokens": 1000,
-    "put_inner_thoughts_in_kwargs": True,
-    "model_endpoint_type": "openai",  # Required field
-    "context_window": 16000  # Required field
+    "put_inner_thoughts_in_kwargs": False,  # Match the server's configuration
+    "model_endpoint_type": "anthropic",
+    "context_window": 200000  # Match the server's configuration
+}
+
+bedrock_llm_config = {
+    "model": "us.anthropic.claude-3-5-sonnet-20240620-v1:0",  # Using the latest Claude model
+    "temperature": 0.7,
+    "max_tokens": 1000,
+    "put_inner_thoughts_in_kwargs": False,  # Match the server's configuration
+    "model_endpoint_type": "bedrock",
+    "context_window": 200000  # Match the server's configuration
 }
 
 # Create embedding config with all required fields
 embedding_config = {
     "model": "openai/text-embedding-ada-002",
-    "embedding_endpoint_type": "openai",  # Required field
-    "embedding_model": "text-embedding-ada-002",  # Required field
-    "embedding_dim": 1536  # Required field for OpenAI embeddings
+    "embedding_endpoint_type": "openai",
+    "embedding_model": "text-embedding-ada-002",
+    "embedding_dim": 1536
 }
 
 # Create the agent with required memory_blocks and LLM configuration
 agent = client.agents.create(
-    name=f"Calculator_Assistant_{unique_suffix}",
+    name=f"calculator_Assistant_{unique_suffix}",
     description="An assistant that can perform mathematical calculations",
     system=system_prompt,
-    memory_blocks=[],  # Required field
-    tools=[calculator_tool.id],  # Use the created tool ID
-    llm_config=llm_config,  # Add LLM configuration with all required fields
-    embedding_config=embedding_config  # Add embedding configuration with all required fields
+    memory_blocks=[],
+    tools=[calculator_tool.id],
+    llm_config=bedrock_llm_config,
+    embedding_config=embedding_config
 )
 
 print(f"Created calculator agent with ID: {agent.id}")
