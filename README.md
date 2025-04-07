@@ -159,7 +159,7 @@ This will:
 ### Access Your Agent
 You can access your agent in several ways:
 
-1. Through the Agent Development Environment (ADE):
+1. Through the Agent Development Environment (ADE). Once you spin upn your docker container, it will start a local server with the ADE:
 
 Open a web browser and go to http://localhost:8283/ade
 Find your agent in the list and click to interact with it
@@ -167,7 +167,7 @@ Find your agent in the list and click to interact with it
 2. Using the Letta API:
 
 Send messages to your agent using the Letta client
-Create a new file interact_with_agent.py:
+Create a new file `interact_with_agent.py`:
 
 ```python
     from letta_client import Letta
@@ -189,6 +189,8 @@ Create a new file interact_with_agent.py:
         ]
     )
 ```
+
+**IMPORTANT**: If you want to change your agent, export your agent on the Agent Development Environment (ADE) as a `.af` file. **Agent File (.af)** is an open standard file format for serializing stateful AI agents. Originally designed for the Letta framework, Agent File provides a portable way to share agents with persistent memory and behavior. Change the contents/add content and import the updated `.af` file on the ADE. This will create a new agent which persists memory from the previous memory and you can test it with the latest updates too. 
 
 ## View an example: 
 
