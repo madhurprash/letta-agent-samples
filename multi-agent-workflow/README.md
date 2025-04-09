@@ -46,6 +46,7 @@ So the two main value propositions of using Multi agents with `Letta` are:
     ```python
     python interact_with_multi_agent.py --supervisor <supervisor_id> --workers <worker_0_id> <worker_1_id> <worker_2_id> --message "What's the status of our quarterly analysis project? Please coordinate with all workers to provide a progress update focusing on Q1 growth trends in the eastern region." --output my_log.txt
     ```
+    ![interact](invocation.png)
 
     This will:
     - Connect to the specified supervisor and worker agents
