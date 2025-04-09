@@ -26,4 +26,6 @@ dependencies = [
     "llama-index-embeddings-huggingface>=0.3.1",
     "llama-index-embeddings-langchain>=0.2.1",
     "httpx>=0.28.1",
+    "idna>=3.10",
+    "pydantic>=2.11.2",
 ]
