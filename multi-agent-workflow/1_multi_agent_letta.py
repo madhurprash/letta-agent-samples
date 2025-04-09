@@ -95,7 +95,7 @@ supervisor_agent = client.agents.create(
     # attach the shared block from above, give it access to a build in tool to send
     # the task across all worker agents
     block_ids=[shared_block.id],
-    tools=["send_message_to_agents_matching_tags"],
+    tools=["send_message_to_agent_async"],
     # llm config
     model='anthropic/claude-3-5-sonnet-20241022',
     embedding_config={
