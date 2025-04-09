@@ -95,7 +95,7 @@ supervisor_agent = client.agents.create(
     # attach the shared block from above, give it access to a build in tool to send
     # the task across all worker agents
     block_ids=[shared_block.id],
-    tools=["send_message_to_agents_matching_all_tags"],
+    tools=["send_message_to_agents_matching_tags"],
     # llm config
     model='anthropic/claude-3-5-sonnet-20241022',
     embedding_config={
@@ -121,7 +121,7 @@ for i in range(3):
         block_ids=[shared_block.id],  # Attach the shared memory block
         # Synchronous agent communication. This will be used until the agent has 
         # a response and can provide that back to the supervisor agent
-        tools=["send_message_to_agent_and_wait_for_reply"],
+        tools=["send_message_to_agent_async"],
         model='anthropic/claude-3-haiku-20240307',
         embedding_config={
             "model": "openai/text-embedding-ada-002",
@@ -134,27 +134,4 @@ for i in range(3):
     worker_agents.append(worker_agent)
     print(f"Created worker agent {i} with ID: {worker_agent.id}")
 
-# Start the workflow by sending a message to the supervisor
-worker_ids = [agent.id for agent in worker_agents]
-initial_message = f"Hi! How are you?"
-response = client.agents.messages.create(
-    agent_id=supervisor_agent.id,
-    messages=[
-        {
-            "role": "user",
-            "content": initial_message
-        }
-    ]
-)
-
-print(f"Initial message sent to supervisor: {response}")
-print("Multi-agent system is now running!")
-
-# After sending the initial message
-for i, worker in enumerate(worker_agents):
-    worker_messages = client.agents.messages.list(agent_id=worker.id)
-    print(f"Worker {i} messages: {worker_messages}")
-    
-# Check if supervisor received any responses
-supervisor_messages = client.agents.messages.list(agent_id=supervisor_agent.id)
-print(f"Supervisor messages after initial assignment: {supervisor_messages}")
+print(f"Multi agent system is ready to be invoked!")
