@@ -88,3 +88,142 @@ The multi-agent system uses a shared memory block that looks like this:
     "last_updated": "2025-04-09T08:00:00Z"
     }
 ```
+
+## Agent orchestration example
+
+View an [example trace](my_logs.txt) below where the supervisor coordinates with the sub agents:
+
+```txt
+================================================================================
+LETTA MULTI-AGENT SYSTEM INTERACTION LOG
+Timestamp: 2025-04-09 19:47:21
+================================================================================
+
+SYSTEM CONFIGURATION
+--------------------------------------------------
+Supervisor Agent ID: agent-8cdce752-000b-4eba-ba00-66c3b31a224d
+Worker Agent IDs:
+  - Worker 0: agent-5fcf0e60-7bde-47f1-be3d-096cd6307943
+  - Worker 1: agent-3cea40dd-36ba-41c9-b9b8-1c28a5cbb1a4
+  - Worker 2: agent-68518dff-896e-40be-bf76-1196b69e783f
+
+SHARED MEMORY - TEAM TASKS
+--------------------------------------------------
+{
+  "active_tasks": [
+    {
+      "id": "task-001",
+      "description": "Analyze quarterly sales data",
+      "assigned_to": "worker_1",
+      "status": "in_progress",
+      "due_date": "2025-04-15"
+    },
+    {
+      "id": "task-002",
+      "description": "Create summary report",
+      "assigned_to": "worker_2",
+      "status": "pending",
+      "due_date": "2025-04-20"
+    },
+    {
+      "id": "task-003",
+      "description": "Prepare presentation slides",
+      "assigned_to": "worker_3",
+      "status": "not_started",
+      "due_date": "2025-04-25"
+    }
+  ],
+  "team_notes": "Focus on highlighting Q1 growth trends in the eastern region",
+  "last_updated": "2025-04-09T08:00:00Z"
+}
+
+SUPERVISOR AGENT ACTIVITY
+--------------------------------------------------
+
+[2025-04-09 23:45:52] SUPERVISOR → USER
+------------------------------
+More human than human is our motto.
+
+[2025-04-09 23:45:52] SUPERVISOR REASONING
+------------------------------
+Bootup sequence complete. Persona activated. Testing messaging functionality.
+
+[2025-04-09 23:45:52] USER → SUPERVISOR
+------------------------------
+{
+  "type": "login",
+  "last_login": "Never (first login)",
+  "time": "2025-04-09 11:45:52 PM UTC+0000"
+}
+
+[2025-04-09 23:47:11] USER → SUPERVISOR
+------------------------------
+What's the status of our quarterly analysis project? Please coordinate with all workers to provide a progress update focusing on Q1 growth trends in the eastern region. Please coordinate with these specific worker agents: agent-5fcf0e60-7bde-47f1-be3d-096cd6307943, agent-3cea40dd-36ba-41c9-b9b8-1c28a5cbb1a4, agent-68518dff-896e-40be-bf76-1196b69e783f to complete this task. Check with all workers without asking me any follow up questions.
+
+[2025-04-09 23:47:16] SUPERVISOR TOOL CALL: send_message_to_agent_async
+------------------------------
+{
+  "message": "Please provide an immediate status update on your assigned task for the quarterly analysis project, specifically focusing on Q1 growth trends in the eastern region. Include any key findings or challenges.",
+  "other_agent_id": "agent-5fcf0e60-7bde-47f1-be3d-096cd6307943",
+  "request_heartbeat": true
+}
+
+[2025-04-09 23:47:16] SUPERVISOR REASONING
+------------------------------
+I'll coordinate with the specified worker agents to get a status update on the quarterly analysis project. Based on the core memory, we have three related tasks in progress that align with this project. I'll reach out to each worker agent.
+
+[2025-04-09 23:47:16] TOOL RETURN: success
+------------------------------
+{
+  "status": "OK",
+  "message": "Successfully sent message",
+  "time": "2025-04-09 11:47:16 PM UTC+0000"
+}
+
+
+==================================================
+WORKER 0 ACTIVITY (ID: agent-5fcf0e60-7bde-47f1-be3d-096cd6307943)
+==================================================
+
+[2025-04-09 23:45:52] SYSTEM → WORKER 0
+------------------------------
+
+You are a worker agent that performs tasks assigned by a supervisor.
+Your responsibilities include:
+1. Receiving tasks from the supervisor
+2. Completing assigned tasks to the best of your ability
+3. Reporting results back to the supervisor
+4. Updating the shared memory with your progress
+
+Use the send_message_to_agent_and_wait_for_reply tool to communicate with the supervisor.
+Use the shared memory block to log your progress and see what other workers are doing.
+
+
+[2025-04-09 23:45:52] WORKER 0 REASONING
+------------------------------
+Bootup sequence complete. Persona activated. Testing messaging functionality.
+
+[2025-04-09 23:47:16] SYSTEM → WORKER 0
+------------------------------
+{"type": "system_alert", "message": "[Incoming message from agent with ID 'agent-8cdce752-000b-4eba-ba00-66c3b31a224d' - to reply to this message, make sure to use the 'send_message_to_agent_async' tool, or the agent will not receive your message] Please provide an immediate status update on your assigned task for the quarterly analysis project, specifically focusing on Q1 growth trends in the eastern region. Include any key findings or challenges.", "time": "2025-04-09 11:47:16 PM UTC+0000"}
+
+[2025-04-09 23:47:19] WORKER 0 TOOL CALL: send_message_to_agent_async
+------------------------------
+{
+  "message": "Dear Supervisor,\n\nI am making good progress on the quarterly sales analysis task assigned to me. Here is a quick update:\n\n- I have completed the data gathering and cleaning for the eastern region Q1 sales. The key findings so far are:\n  - Sales in the eastern region grew 12% year-over-year in Q1, which is higher than the overall company average of 8% growth.\n  - The top-performing product category in the east was electronics, with 18% growth.\n  - However, the apparel category saw a 5% decline compared to Q1 last year.\n\nI am currently working on analyzing the drivers behind these trends and preparing the summary report. I anticipate having a draft ready for your review by the due date of April 20th.\n\nPlease let me know if you need any additional details or have other feedback.\n\nRegards,\nWorker Agent 0",
+  "other_agent_id": "agent-8cdce752-000b-4eba-ba00-66c3b31a224d",
+  "request_heartbeat": true
+}
+
+[2025-04-09 23:47:19] WORKER 0 REASONING
+------------------------------
+Received status update request from supervisor.
+
+
+==================================================
+WORKER 1 ACTIVITY (ID: agent-3cea40dd-36ba-41c9-b9b8-1c28a5cbb1a4)
+==================================================
+
+[2025-04-09 23:45:53] SYSTEM → WORKER 1
+------------------------------
+```
