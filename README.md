@@ -4,6 +4,8 @@ This guide will help you set up a `Letta` server and create a calculator agent w
 
 ## What is Letta?
 
+**Youtube demo: https://www.youtube.com/watch?v=z5pxizGHErQ**
+
 `Letta` is an open-source platform for building stateful AI agents that maintain memory and context across conversations. Unlike traditional LLM applications, `Letta` agents can:
 
 1. Maintain persistent memory and learn from past interactions
